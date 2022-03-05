@@ -13,8 +13,30 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	Pane areaDiGioco = new Pane();
 	
-	Rectangle rettangolo = new Rectangle(180,249);
-
+	
+	Rectangle Axel = new Rectangle(180,249);
+	Rectangle Dr = new Rectangle(180,249);
+	
+	
+	
+	/*
+	 * importo tutte le immagini
+	 * 
+	 * TUTTI I TIPI DI ANIMAZIONI:
+	 * riposo
+	 * camminata
+	 * pugno
+	 * colpito
+	 * salto
+	 * accucciato
+	 * 
+	 */
+	
+	Image AxelRiposo = new Image(getClass().getResourceAsStream("axel-riposoP.gif"));
+	Image DrRiposo = new Image(getClass().getResourceAsStream("dr-riposo.gif"));
+	
+	
+	
 	
 	@Override
     public void start(Stage primaryStage) throws Exception {
@@ -27,17 +49,16 @@ public class Main extends Application {
         areaDiGioco.getChildren().add(sfondo);
         
         
-        //Image Base = new Image(getClass().getResourceAsStream("player1.gif"));
-        //rettangolo.setImage(Base);
-        //Image img = new Image("player1.gif");
-        Image img = new Image(getClass().getResourceAsStream("player1.gif"));
-        //ImageView player1 = new ImageView(img);
-        rettangolo.setFill(new ImagePattern(img));
-        rettangolo.setX(200);
-        rettangolo.setY(320);
-        //rettangolo.setFill(Color.WHITE);
-        areaDiGioco.getChildren().add(rettangolo);
         
+        Axel.setFill(new ImagePattern(AxelRiposo));
+        Axel.setX(200);
+        Axel.setY(320);
+        areaDiGioco.getChildren().add(Axel);
+        
+        Dr.setFill(new ImagePattern(DrRiposo));
+        Dr.setX(600);
+        Dr.setY(320);
+        areaDiGioco.getChildren().add(Dr);
         
         
         Scene scena = new Scene(areaDiGioco);
