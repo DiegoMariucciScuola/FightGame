@@ -12,13 +12,12 @@ public class Main extends Application {
 	
 	@Override
     public void start(Stage primaryStage) throws Exception {
-    	areaDiGioco.setPrefSize(400, 400);
         
-        Image iBase = new Image(getClass().getResourceAsStream("/res/bg/bg1.gif"));
-        ImageView asteroide = new ImageView(iBase);
-        asteroide.setPreserveRatio(true);
-        asteroide.setFitWidth(500);
-        areaDiGioco.getChildren().add(asteroide);
+        Image iBase = new Image(getClass().getResourceAsStream("bg1.gif"));
+        ImageView sfondo = new ImageView(iBase);
+        sfondo.setPreserveRatio(true);
+        sfondo.setFitWidth(1000);
+        areaDiGioco.getChildren().add(sfondo);
         
         
         
