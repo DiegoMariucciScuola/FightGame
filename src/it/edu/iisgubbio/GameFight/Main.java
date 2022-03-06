@@ -25,11 +25,17 @@ public class Main extends Application {
 	 */
 	Boolean VersoAxel=true;
 	Boolean staCamminandoAxel=false;
-	int contRiposoAxel=0;
+	Boolean staSaltandoAxel=false;
+	Boolean staSaltandoAvantiAxel=false;
+	int contCamminaAxel=0;
+	int contSaltoAxel=0;
+	int contSaltoAvantiAxel=0;
 	
 	Boolean VersoDr=false;
 	Boolean staCamminandoDr=false;
+	Boolean staSaltandoDr=false;
 	int contRiposoDr=0;
+	int contSaltoDr=0;
 	
 	Rectangle Axel = new Rectangle(180,249);
 	Rectangle Dr = new Rectangle(180,249);
@@ -62,6 +68,11 @@ public class Main extends Application {
 	Image DrCamminata = new Image(getClass().getResourceAsStream("dr-camminata.gif"));
 	Image DrCamminataInv = new Image(getClass().getResourceAsStream("dr-camminata-inv.gif"));
 	
+	//salto
+	//Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto.gif"));
+	Image AxelSaltoInv = new Image(getClass().getResourceAsStream("axel-salto-inv.gif"));
+	Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
+	Image DrSaltoInv = new Image(getClass().getResourceAsStream("dr-salto-inv.gif"));
 	
 	@Override
     public void start(Stage primaryStage) throws Exception {
@@ -100,37 +111,157 @@ public class Main extends Application {
 	private void movimenti(KeyEvent e) {
 		
 		//prendo i comandi dei movimenti di Axel
+		//verso sinistra
 		if(e.getText().equals("a")) {
 			//Axel.setX(Axel.getX()-24);
 			VersoAxel=false;
 			staCamminandoAxel=true;
-			contRiposoAxel=20;
+			contCamminaAxel=20;
 		}
+		//verso destra
 		if(e.getText().equals("d")) {
 			//Axel.setX(Axel.getX()+24);
 			VersoAxel=true;
 			staCamminandoAxel=true;
-			contRiposoAxel=20;
+			contCamminaAxel=20;
+		}
+		//salto
+		if(e.getText().equals("w")) {
+			
+			if(staCamminandoAxel==true) {
+				staSaltandoAvantiAxel=true;
+				Axel.setY(Axel.getY()-111);
+				Axel.setHeight(360);
+				Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto.gif"));
+				Axel.setFill(new ImagePattern(AxelSalto));
+				//staSaltandoAxel=true;
+				contSaltoAvantiAxel=100;
+			}else if(staSaltandoAxel==false) {
+				Axel.setY(Axel.getY()-111);
+				Axel.setHeight(360);
+				Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto.gif"));
+				Axel.setFill(new ImagePattern(AxelSalto));
+				staSaltandoAxel=true;
+				contSaltoAxel=100;
+			}
+			
 		}
 		
 		//prendo i comandi dei movimenti di Dr
+		//verso sinistra
 		if(e.getCode()==KeyCode.LEFT) {
 			//Dr.setX(Dr.getX()-24);
 			VersoDr=false;
 			staCamminandoDr=true;
 			contRiposoDr=20;
 		}
+		//verso destra
 		if(e.getCode()==KeyCode.RIGHT) {
 			//Dr.setX(Dr.getX()+24);
 			VersoDr=true;
 			staCamminandoDr=true;
 			contRiposoDr=20;
 		}
+		//salto
+		if(e.getCode()==KeyCode.UP) {
+			staSaltandoDr=true;
+			contSaltoDr=20;
+		}
 	}
 	private void ogniTempo() {
 		
+		/*
+		 * stasaltandoavanti è vero{
+		 * 		imposto il salto in avanti
+		 * }se invece sta solo camminando{
+		 * 		inmposto il cammino
+		 * }se sta solo saltando{
+		 * 		imposto il salto sul posto
+		 * }
+		 * 
+		 * 
+		 * 
+		 */
 		
-		//regolo il movimento, il verso e quando smettere di camminare di axel
+		
+		
+		
+		
+		if(staSaltandoAvantiAxel==true) {
+			if(contSaltoAxel>=50) {
+				Axel.setY(Axel.getY()-3);
+				Axel.setX(Axel.getX()-3);
+			}else {
+				Axel.setY(Axel.getY()+3);
+				Axel.setX(Axel.getX()+3);
+			}
+			System.out.println(contSaltoAvantiAxel);
+			contSaltoAvantiAxel--;
+			contCamminaAxel--;
+			contSaltoAxel--;
+		}else if(staCamminandoAxel==true) {
+			if(VersoAxel==true) {
+				Axel.setFill(new ImagePattern(AxelCamminata));
+				if((Axel.getX()+180)<Dr.getX()||Axel.getX()>(Dr.getX())+180) {
+					Axel.setX(Axel.getX()+3);
+					//System.out.println("+");
+				}
+			}else {
+				Axel.setFill(new ImagePattern(AxelCamminataInv));
+				if((Axel.getX()+180)<Dr.getX()||Axel.getX()>(Dr.getX())+180) {
+					Axel.setX(Axel.getX()-3);
+					//System.out.println("-");
+				}
+			}
+			
+			contCamminaAxel--;
+		}else if(staSaltandoAxel==true) {
+			if(contSaltoAxel>=50) {
+				Axel.setY(Axel.getY()-3);
+			}else {
+				Axel.setY(Axel.getY()+3);
+			}
+			contSaltoAxel--;
+		}
+		/*
+		if(contSaltoAvantiAxel==0) {
+			staSaltandoAvantiAxel=false;
+			Axel.setFill(new ImagePattern(AxelRiposo));
+			Axel.setHeight(249);
+			Axel.setY(340);
+		}*/
+		if(contCamminaAxel<=0&&contSaltoAxel<=0&&contSaltoAvantiAxel<=0) {
+			staCamminandoAxel=false;
+			staSaltandoAxel=false;
+			//System.out.println("---------");
+			staSaltandoAvantiAxel=false;
+			Axel.setHeight(249);
+			Axel.setY(340);
+			
+			if(VersoAxel==true) {
+				Axel.setFill(new ImagePattern(AxelRiposo));
+			}else {
+				Axel.setFill(new ImagePattern(AxelRiposoInv));
+			}
+		}
+		
+		
+		
+		/*
+		if(staSaltandoAxel==true && staCamminandoAxel==true) {
+			if(contSaltoAxel>=50) {
+				Axel.setY(Axel.getY()-3);
+				Axel.setX(Axel.getX()-3);
+			}else {
+				Axel.setY(Axel.getY()+3);
+				Axel.setX(Axel.getX()+3);
+			}
+			contSaltoAxel--;
+		}*/
+		
+		
+		/*
+		//regolo il movimento, il verso
 		if(staCamminandoAxel==true) {
 			if(VersoAxel==true) {
 				Axel.setFill(new ImagePattern(AxelCamminata));
@@ -146,7 +277,8 @@ public class Main extends Application {
 			
 			contRiposoAxel--;
 		}
-		if(contRiposoAxel==0) {
+		//quando smettere di camminare di Axel
+		if(contRiposoAxel==0&&contSaltoAxel==0) {
 			staCamminandoAxel=false;
 			if(VersoAxel==true) {
 				Axel.setFill(new ImagePattern(AxelRiposo));
@@ -154,24 +286,29 @@ public class Main extends Application {
 				Axel.setFill(new ImagePattern(AxelRiposoInv));
 			}
 		}
+		*/
 		
-		//regolo il movimento, il verso e quando smettere di camminare di Dr
+		
+		
+		
+		
+		
+		//regolo il movimento, il verso 
 		if(staCamminandoDr==true) {
 			if(VersoDr==true) {
 				Dr.setFill(new ImagePattern(DrCamminata));
 				if((Dr.getX()+180)<Axel.getX()||Dr.getX()>(Axel.getX())+180) {
 					Dr.setX(Dr.getX()+3);
 				}
-				//Dr.setX(Dr.getX()+3);
 			}else {
 				Dr.setFill(new ImagePattern(DrCamminataInv));
 				if((Dr.getX()+180)<Axel.getX()||Dr.getX()>(Axel.getX())+180) {
 					Dr.setX(Dr.getX()-3);
 				}
-				//Dr.setX(Dr.getX()-3);
 			}
 			contRiposoDr--;
 		}
+		//quando smettere di camminare di Dr
 		if(contRiposoDr==0) {
 			staCamminandoDr=false;
 			if(VersoDr==true) {
