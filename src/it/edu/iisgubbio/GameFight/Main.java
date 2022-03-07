@@ -27,6 +27,8 @@ public class Main extends Application {
 	Boolean staCamminandoAxel=false;
 	Boolean staSaltandoAxel=false;
 	Boolean staSaltandoAvantiAxel=false;
+	Boolean toccaDestraAxel=false;
+	Boolean toccaSinistraAxel=false;
 	int contCamminaAxel=0;
 	int contSaltoAxel=0;
 	int contSaltoAvantiAxel=0;
@@ -114,28 +116,37 @@ public class Main extends Application {
 		//verso sinistra
 		if(e.getText().equals("a")) {
 			//Axel.setX(Axel.getX()-24);
-			VersoAxel=false;
-			staCamminandoAxel=true;
-			contCamminaAxel=20;
+			if(staSaltandoAvantiAxel==false&&staSaltandoAxel==false) {
+				VersoAxel=false;
+				staCamminandoAxel=true;
+				contCamminaAxel=20;
+			}
+			
 		}
 		//verso destra
 		if(e.getText().equals("d")) {
 			//Axel.setX(Axel.getX()+24);
-			VersoAxel=true;
-			staCamminandoAxel=true;
-			contCamminaAxel=20;
+			if(staSaltandoAvantiAxel==false&&staSaltandoAxel==false) {
+				VersoAxel=true;
+				staCamminandoAxel=true;
+				contCamminaAxel=20;
+			}
+			
 		}
 		//salto
 		if(e.getText().equals("w")) {
 			
 			if(staCamminandoAxel==true) {
-				staSaltandoAvantiAxel=true;
-				Axel.setY(Axel.getY()-111);
-				Axel.setHeight(360);
-				Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto.gif"));
-				Axel.setFill(new ImagePattern(AxelSalto));
-				//staSaltandoAxel=true;
-				contSaltoAvantiAxel=100;
+				if(staSaltandoAvantiAxel==false) {
+					staSaltandoAvantiAxel=true;
+					Axel.setY(Axel.getY()-111);
+					Axel.setHeight(360);
+					Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto.gif"));
+					Axel.setFill(new ImagePattern(AxelSalto));
+					//staSaltandoAxel=true;
+					contSaltoAvantiAxel=100;
+				}
+				
 			}else if(staSaltandoAxel==false) {
 				Axel.setY(Axel.getY()-111);
 				Axel.setHeight(360);
@@ -178,58 +189,58 @@ public class Main extends Application {
 		 * }se sta solo saltando{
 		 * 		imposto il salto sul posto
 		 * }
-		 * 
-		 * 
-		 * 
 		 */
 		
 		
-		
-		
-		
 		if(staSaltandoAvantiAxel==true) {
-			if(contSaltoAxel>=50) {
-				Axel.setY(Axel.getY()-3);
-				Axel.setX(Axel.getX()-3);
+			if(contSaltoAvantiAxel>=50) {
+				Axel.setY(Axel.getY()-4);
+				Axel.setX(Axel.getX()+4);
+				System.out.println("+");
 			}else {
-				Axel.setY(Axel.getY()+3);
-				Axel.setX(Axel.getX()+3);
+				Axel.setY(Axel.getY()+4);
+				System.out.println("-");
+				Axel.setX(Axel.getX()+4);
 			}
 			System.out.println(contSaltoAvantiAxel);
 			contSaltoAvantiAxel--;
 			contCamminaAxel--;
 			contSaltoAxel--;
+		}else if(staSaltandoAxel==true) {
+			if(contSaltoAxel>=50) {
+				Axel.setY(Axel.getY()-4);
+			}else {
+				Axel.setY(Axel.getY()+4);
+			}
+			contSaltoAxel--;
+			//System.out.println("-");
 		}else if(staCamminandoAxel==true) {
 			if(VersoAxel==true) {
 				Axel.setFill(new ImagePattern(AxelCamminata));
-				if((Axel.getX()+180)<Dr.getX()||Axel.getX()>(Dr.getX())+180) {
+				
+				if((Axel.getX()+140)<=Dr.getX()) {
 					Axel.setX(Axel.getX()+3);
-					//System.out.println("+");
+				}else if(Axel.getX()>=(Dr.getX())+130) {
+					Axel.setX(Axel.getX()+3);
 				}
+				
+				
 			}else {
 				Axel.setFill(new ImagePattern(AxelCamminataInv));
-				if((Axel.getX()+180)<Dr.getX()||Axel.getX()>(Dr.getX())+180) {
+				if(Axel.getX()>=(Dr.getX())+140) {
 					Axel.setX(Axel.getX()-3);
-					//System.out.println("-");
+				}else if((Axel.getX()+130)<=Dr.getX()) {
+					Axel.setX(Axel.getX()-3);
 				}
 			}
-			
 			contCamminaAxel--;
-		}else if(staSaltandoAxel==true) {
-			if(contSaltoAxel>=50) {
-				Axel.setY(Axel.getY()-3);
-			}else {
-				Axel.setY(Axel.getY()+3);
-			}
-			contSaltoAxel--;
 		}
-		/*
-		if(contSaltoAvantiAxel==0) {
-			staSaltandoAvantiAxel=false;
-			Axel.setFill(new ImagePattern(AxelRiposo));
+		if(Axel.getY()>600) {
 			Axel.setHeight(249);
 			Axel.setY(340);
-		}*/
+		}
+		
+
 		if(contCamminaAxel<=0&&contSaltoAxel<=0&&contSaltoAvantiAxel<=0) {
 			staCamminandoAxel=false;
 			staSaltandoAxel=false;
@@ -245,48 +256,10 @@ public class Main extends Application {
 			}
 		}
 		
+
 		
 		
-		/*
-		if(staSaltandoAxel==true && staCamminandoAxel==true) {
-			if(contSaltoAxel>=50) {
-				Axel.setY(Axel.getY()-3);
-				Axel.setX(Axel.getX()-3);
-			}else {
-				Axel.setY(Axel.getY()+3);
-				Axel.setX(Axel.getX()+3);
-			}
-			contSaltoAxel--;
-		}*/
 		
-		
-		/*
-		//regolo il movimento, il verso
-		if(staCamminandoAxel==true) {
-			if(VersoAxel==true) {
-				Axel.setFill(new ImagePattern(AxelCamminata));
-				if((Axel.getX()+180)<Dr.getX()||Axel.getX()>(Dr.getX())+180) {
-					Axel.setX(Axel.getX()+3);
-				}
-			}else {
-				Axel.setFill(new ImagePattern(AxelCamminataInv));
-				if((Axel.getX()+180)<Dr.getX()||Axel.getX()>(Dr.getX())+180) {
-					Axel.setX(Axel.getX()-3);
-				}
-			}
-			
-			contRiposoAxel--;
-		}
-		//quando smettere di camminare di Axel
-		if(contRiposoAxel==0&&contSaltoAxel==0) {
-			staCamminandoAxel=false;
-			if(VersoAxel==true) {
-				Axel.setFill(new ImagePattern(AxelRiposo));
-			}else {
-				Axel.setFill(new ImagePattern(AxelRiposoInv));
-			}
-		}
-		*/
 		
 		
 		
