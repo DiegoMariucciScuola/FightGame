@@ -1,4 +1,4 @@
-package it.edu.iisgubbio.GameFight;
+package it.edu.iisgubbio.FightGame;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -178,20 +178,74 @@ public class Main extends Application {
 		//prendo i comandi dei movimenti di Dr
 		//verso sinistra
 		if(e.getCode()==KeyCode.LEFT) {
+			if(staSaltandoAvantiDr==false&&staSaltandoDr==false) {
+				VersoDr=false;
+				staCamminandoDr=true;
+				contCamminaDr=20;
+			}
+			
+			/*
 			//Dr.setX(Dr.getX()-24);
 			VersoDr=false;
 			staCamminandoDr=true;
 			contCamminaDr=20;
+			*/
 		}
 		//verso destra
 		if(e.getCode()==KeyCode.RIGHT) {
+			if(staSaltandoAvantiDr==false&&staSaltandoDr==false) {
+				VersoDr=true;
+				staCamminandoDr=true;
+				contCamminaDr=20;
+			}
+			/*
 			//Dr.setX(Dr.getX()+24);
 			VersoDr=true;
 			staCamminandoDr=true;
 			contCamminaDr=20;
+			*/
 		}
 		//salto
 		if(e.getCode()==KeyCode.UP) {
+			
+			if(staCamminandoDr==true) {
+				if(staSaltandoAvantiDr==false) {
+					if(VersoDr==true) {
+						staSaltandoAvantiDr=true;
+						Dr.setY(Dr.getY()-111);
+						Dr.setHeight(360);
+						Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
+						Dr.setFill(new ImagePattern(DrSalto));
+						//staSaltandoAxel=true;
+						contSaltoAvantiDr=100;
+					}else if(VersoDr==false) {
+						staSaltandoAvantiDr=true;
+						Dr.setY(Dr.getY()-111);
+						Dr.setHeight(360);
+						Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto-inv.gif"));
+						Dr.setFill(new ImagePattern(DrSalto));
+						//staSaltandoAxel=true;
+						contSaltoAvantiDr=100;
+					}
+					
+				}
+				
+			}else if(staSaltandoDr==false) {
+				Dr.setY(Dr.getY()-111);
+				Dr.setHeight(360);
+				Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
+				if(VersoDr==true) {
+					DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
+				}else if(VersoDr==false) {
+					DrSalto = new Image(getClass().getResourceAsStream("dr-salto-inv.gif"));
+				}
+				
+				Dr.setFill(new ImagePattern(DrSalto));
+				staSaltandoDr=true;
+				contSaltoDr=100;
+			}
+			
+			
 			/*
 			if(staCamminandoDr==true) {
 				if(staSaltandoAvantiDr==false) {
@@ -207,14 +261,15 @@ public class Main extends Application {
 			}else if(staSaltandoDr==false) {
 				Dr.setY(Dr.getY()-111);
 				Dr.setHeight(360);
-				Image AxelSalto = new Image(getClass().getResourceAsStream("Dr-salto.gif"));
+				Image DrSalto = new Image(getClass().getResourceAsStream("Dr-salto.gif"));
 				Dr.setFill(new ImagePattern(DrSalto));
 				staSaltandoDr=true;
 				contSaltoDr=100;
-			}
-			*/
+			}*/
+			/*
 			staSaltandoDr=true;
 			contSaltoDr=20;
+			*/
 		}
 	}
 	private void ogniTempo() {
@@ -241,7 +296,7 @@ public class Main extends Application {
 					//System.out.println("-");
 					Axel.setX(Axel.getX()+4);
 				}
-				System.out.println(contSaltoAvantiAxel);
+				//System.out.println(contSaltoAvantiAxel);
 				contSaltoAvantiAxel--;
 				contCamminaAxel--;
 				contSaltoAxel--;
@@ -322,6 +377,93 @@ public class Main extends Application {
 		
 		
 		
+		
+		
+		
+		
+		if(staSaltandoAvantiDr==true) {
+			if(VersoDr==true) {
+				if(contSaltoAvantiDr>=50) {
+					Dr.setY(Dr.getY()-4);
+					Dr.setX(Dr.getX()+4);
+					//System.out.println("+");
+				}else {
+					Dr.setY(Dr.getY()+4);
+					//System.out.println("-");
+					Dr.setX(Dr.getX()+4);
+				}
+				//System.out.println(contSaltoAvantiAxel);
+				contSaltoAvantiDr--;
+				contCamminaDr--;
+				contSaltoDr--;
+			}else if(VersoDr==false) {
+				if(contSaltoAvantiDr>=50) {
+					Dr.setY(Dr.getY()-4);
+					Dr.setX(Dr.getX()-4);
+					//System.out.println("+");
+				}else {
+					Dr.setY(Dr.getY()+4);
+					//System.out.println("-");
+					Dr.setX(Dr.getX()-4);
+				}
+				//System.out.println(contSaltoAvantiAxel);
+				contSaltoAvantiDr--;
+				contCamminaDr--;
+				contSaltoDr--;
+			}
+			
+			
+		}else if(staSaltandoDr==true) {
+			if(contSaltoDr>=50) {
+				Dr.setY(Dr.getY()-4);
+			}else {
+				Dr.setY(Dr.getY()+4);
+			}
+			contSaltoDr--;
+			//System.out.println("-");
+		}else if(staCamminandoDr==true) {
+			if(VersoDr==true) {
+				Dr.setFill(new ImagePattern(DrCamminata));
+				
+				if((Dr.getX()+140)<=Axel.getX()) {
+					Dr.setX(Dr.getX()+3);
+				}else if(Dr.getX()>=(Axel.getX())+130) {
+					Dr.setX(Dr.getX()+3);
+				}
+				
+				
+			}else {
+				Dr.setFill(new ImagePattern(DrCamminataInv));
+				if(Dr.getX()>=(Axel.getX())+140) {
+					Dr.setX(Dr.getX()-3);
+				}else if((Dr.getX()+130)<=Axel.getX()) {
+					Dr.setX(Dr.getX()-3);
+				}
+			}
+			contCamminaDr--;
+		}
+		if(Dr.getY()>600) {
+			Dr.setHeight(249);
+			Dr.setY(340);
+		}
+		
+
+		if(contCamminaDr<=0&&contSaltoDr<=0&&contSaltoAvantiDr<=0) {
+			staCamminandoDr=false;
+			staSaltandoDr=false;
+			//System.out.println("---------");
+			staSaltandoAvantiDr=false;
+			Dr.setHeight(249);
+			Dr.setY(340);
+			
+			if(VersoDr==true) {
+				Dr.setFill(new ImagePattern(DrRiposo));
+			}else {
+				Dr.setFill(new ImagePattern(DrRiposoInv));
+			}
+		}
+		
+		/*
 		//regolo il movimento, il verso 
 		if(staCamminandoDr==true) {
 			if(VersoDr==true) {
@@ -346,7 +488,7 @@ public class Main extends Application {
 				Dr.setFill(new ImagePattern(DrRiposoInv));
 			}
 		}
-		
+		*/
 		
 	}
 	
