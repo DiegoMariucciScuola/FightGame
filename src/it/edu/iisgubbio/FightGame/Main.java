@@ -19,6 +19,7 @@ public class Main extends Application {
 	Pane areaDiGioco = new Pane();
 	double tempo=0.010;
 	boolean compenetratoAxel=false;
+	boolean compenetratoDr=false;
 	
 	/*
 	 * Verso:
@@ -264,11 +265,21 @@ public class Main extends Application {
 		if(Axel.getX()+90>(Dr.getX())+230||Axel.getX()+90<(Dr.getX())-50) {
 			compenetratoAxel=false;
 		}
+		if(Dr.getX()+90>(Axel.getX())+230||Dr.getX()+90<(Axel.getX())-50) {
+			compenetratoDr=false;
+		}
 		if(compenetratoAxel==true) {
 			if(Axel.getX()+90<(Dr.getX())+90) {
 				Axel.setX(Axel.getX()-4);
 			}else {
 				Axel.setX(Axel.getX()+4);
+			}
+		}
+		if(compenetratoDr==true) {
+			if(Dr.getX()+90<(Axel.getX())+90) {
+				Dr.setX(Dr.getX()-4);
+			}else {
+				Dr.setX(Dr.getX()+4);
 			}
 		}
 		
@@ -307,7 +318,7 @@ public class Main extends Application {
 					if(Axel.getX()+90<=(Dr.getX())+130&&Axel.getX()+90>=(Dr.getX())+50) {
 						if(contSaltoAvantiAxel<30) {
 							compenetratoAxel=true;
-							System.out.println("comp");
+							//System.out.println("comp");
 						}
 						
 					}
@@ -405,13 +416,28 @@ public class Main extends Application {
 			if(VersoDr==true) {
 				if(contSaltoAvantiDr>=50) {
 					Dr.setY(Dr.getY()-4);
-					Dr.setX(Dr.getX()+4);
+					if(Dr.getX()+180<1000) {
+						Dr.setX(Dr.getX()+4);
+					}
+					//Dr.setX(Dr.getX()+4);
 					//System.out.println("+");
 				}else {
 					
 					Dr.setY(Dr.getY()+4);
 					//System.out.println("-");
-					Dr.setX(Dr.getX()+4);
+					if(Dr.getX()+90<=(Axel.getX())+130&&Dr.getX()+90>=(Axel.getX())+50) {
+						if(contSaltoAvantiDr<30) {
+							compenetratoDr=true;
+						}
+					}
+					if(Dr.getX()+180<1000) {
+						if(Dr.getX()-4>0) {
+							Dr.setX(Dr.getX()-3);
+							//System.out.println(Axel.getX()-3);
+						}
+						//Dr.setX(Dr.getX()+4);
+					}
+					//Dr.setX(Dr.getX()+4);
 				}
 				//System.out.println(contSaltoAvantiAxel);
 				contSaltoAvantiDr--;
@@ -420,12 +446,19 @@ public class Main extends Application {
 			}else if(VersoDr==false) {
 				if(contSaltoAvantiDr>=50) {
 					Dr.setY(Dr.getY()-4);
-					Dr.setX(Dr.getX()-4);
+					if(Dr.getX()-4>0) {
+						Dr.setX(Dr.getX()-4);
+					}
+					//Dr.setX(Dr.getX()-4);
 					//System.out.println("+");
 				}else {
 					Dr.setY(Dr.getY()+4);
 					//System.out.println("-");
-					Dr.setX(Dr.getX()-4);
+					if(contSaltoAvantiDr<30) {
+						compenetratoDr=true;
+						//System.out.println("comp");
+					}
+					//Dr.setX(Dr.getX()-4);
 				}
 				//System.out.println(contSaltoAvantiAxel);
 				contSaltoAvantiDr--;
@@ -447,7 +480,11 @@ public class Main extends Application {
 				Dr.setFill(new ImagePattern(DrCamminata));
 				
 				if((Dr.getX()+140)<=Axel.getX()) {
-					Dr.setX(Dr.getX()+3);
+					if(Dr.getX()+180<1000) {
+						Dr.setX(Dr.getX()+3);
+						//System.out.println(Axel.getX()+4);
+					}
+					//Dr.setX(Dr.getX()+3);
 				}else if(Dr.getX()>=(Axel.getX())+130) {
 					Dr.setX(Dr.getX()+3);
 				}
@@ -456,9 +493,16 @@ public class Main extends Application {
 			}else {
 				Dr.setFill(new ImagePattern(DrCamminataInv));
 				if(Dr.getX()>=(Axel.getX())+140) {
-					Dr.setX(Dr.getX()-3);
+					if(Dr.getX()-4>0) {
+						Dr.setX(Dr.getX()-3);
+					}
+					//Dr.setX(Dr.getX()-3);
 				}else if((Dr.getX()+130)<=Axel.getX()) {
-					Dr.setX(Dr.getX()-3);
+					if(Dr.getX()-4>0) {
+						Dr.setX(Dr.getX()-3);
+						//System.out.println(Axel.getX()-3);
+					}
+					//Dr.setX(Dr.getX()-3);
 				}
 			}
 			contCamminaDr--;
@@ -483,33 +527,6 @@ public class Main extends Application {
 				Dr.setFill(new ImagePattern(DrRiposoInv));
 			}
 		}
-		
-		/*
-		//regolo il movimento, il verso 
-		if(staCamminandoDr==true) {
-			if(VersoDr==true) {
-				Dr.setFill(new ImagePattern(DrCamminata));
-				if((Dr.getX()+180)<Axel.getX()||Dr.getX()>(Axel.getX())+180) {
-					Dr.setX(Dr.getX()+3);
-				}
-			}else {
-				Dr.setFill(new ImagePattern(DrCamminataInv));
-				if((Dr.getX()+180)<Axel.getX()||Dr.getX()>(Axel.getX())+180) {
-					Dr.setX(Dr.getX()-3);
-				}
-			}
-			contCamminaDr--;
-		}
-		//quando smettere di camminare di Dr
-		if(contCamminaDr==0) {
-			staCamminandoDr=false;
-			if(VersoDr==true) {
-				Dr.setFill(new ImagePattern(DrRiposo));
-			}else {
-				Dr.setFill(new ImagePattern(DrRiposoInv));
-			}
-		}
-		*/
 		
 	}
 	
