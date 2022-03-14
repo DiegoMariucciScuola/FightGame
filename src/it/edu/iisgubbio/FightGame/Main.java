@@ -30,9 +30,11 @@ public class Main extends Application {
 	boolean staCamminandoAxel=false;
 	boolean staSaltandoAxel=false;
 	boolean staSaltandoAvantiAxel=false;
+	boolean staTirandoPugnoAxel=false;
 	int contCamminaAxel=0;
 	int contSaltoAxel=0;
 	int contSaltoAvantiAxel=0;
+	int contPugnoAxel=0;
 	
 	boolean VersoDr=false;
 	boolean staCamminandoDr=false;
@@ -79,6 +81,9 @@ public class Main extends Application {
 	Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
 	Image DrSaltoInv = new Image(getClass().getResourceAsStream("dr-salto-inv.gif"));
 	
+	//pugno
+	Image AxelPugno = new Image(getClass().getResourceAsStream("axel-pugno2.gif"));
+	
 	@Override
     public void start(Stage primaryStage) throws Exception {
         
@@ -123,6 +128,7 @@ public class Main extends Application {
 				VersoAxel=false;
 				staCamminandoAxel=true;
 				contCamminaAxel=20;
+				Axel.setWidth(180);
 			}
 			
 		}
@@ -133,6 +139,7 @@ public class Main extends Application {
 				VersoAxel=true;
 				staCamminandoAxel=true;
 				contCamminaAxel=20;
+				Axel.setWidth(180);
 			}
 			
 		}
@@ -177,6 +184,16 @@ public class Main extends Application {
 			}
 			
 		}
+		if(e.getText().equals("s")) {
+			
+			//System.out.println(Axel.getWidth());
+			contPugnoAxel=20;
+			staTirandoPugnoAxel=true;
+		}
+		
+		
+		
+		
 		
 		//prendo i comandi dei movimenti di Dr
 		//verso sinistra
@@ -341,6 +358,18 @@ public class Main extends Application {
 			}
 			contSaltoAxel--;
 			//System.out.println("-");
+		}else if(staTirandoPugnoAxel==true) {
+			if(VersoAxel==true) {
+				if(contPugnoAxel>0) {
+					Axel.setFill(new ImagePattern(AxelPugno));
+					Axel.setWidth(350);
+				}
+			}else if(VersoAxel==false) {
+				if(contPugnoAxel>0) {
+					
+				}
+			}
+			contPugnoAxel--;
 		}else if(staCamminandoAxel==true) {
 			if(VersoAxel==true) {
 				Axel.setFill(new ImagePattern(AxelCamminata));
@@ -383,12 +412,13 @@ public class Main extends Application {
 		}
 		
 
-		if(contCamminaAxel<=0&&contSaltoAxel<=0&&contSaltoAvantiAxel<=0) {
+		if(contCamminaAxel<=0&&contSaltoAxel<=0&&contSaltoAvantiAxel<=0&&contPugnoAxel<=0) {
 			staCamminandoAxel=false;
 			staSaltandoAxel=false;
 			//System.out.println("---------");
 			staSaltandoAvantiAxel=false;
 			Axel.setHeight(249);
+			Axel.setWidth(180);
 			Axel.setY(340);
 			
 			if(VersoAxel==true) {
@@ -428,14 +458,12 @@ public class Main extends Application {
 					if(Dr.getX()+90<=(Axel.getX())+130&&Dr.getX()+90>=(Axel.getX())+50) {
 						if(contSaltoAvantiDr<30) {
 							compenetratoDr=true;
+							//System.out.println("+");
 						}
 					}
 					if(Dr.getX()+180<1000) {
-						if(Dr.getX()-4>0) {
-							Dr.setX(Dr.getX()-3);
-							//System.out.println(Axel.getX()-3);
-						}
-						//Dr.setX(Dr.getX()+4);
+						Dr.setX(Dr.getX()+4);
+						//System.out.println(Dr.getX()+4);
 					}
 					//Dr.setX(Dr.getX()+4);
 				}
@@ -449,16 +477,19 @@ public class Main extends Application {
 					if(Dr.getX()-4>0) {
 						Dr.setX(Dr.getX()-4);
 					}
-					//Dr.setX(Dr.getX()-4);
-					//System.out.println("+");
 				}else {
 					Dr.setY(Dr.getY()+4);
 					//System.out.println("-");
-					if(contSaltoAvantiDr<30) {
-						compenetratoDr=true;
-						//System.out.println("comp");
+					if(Dr.getX()+90<=(Axel.getX())+130&&Dr.getX()+90>=(Axel.getX())+50) {
+						if(contSaltoAvantiDr<30) {
+							compenetratoDr=true;
+							//System.out.println("comp");
+						}
+						
 					}
-					//Dr.setX(Dr.getX()-4);
+					if(Dr.getX()-4>0) {
+						Dr.setX(Dr.getX()-4);
+					}
 				}
 				//System.out.println(contSaltoAvantiAxel);
 				contSaltoAvantiDr--;
@@ -484,9 +515,13 @@ public class Main extends Application {
 						Dr.setX(Dr.getX()+3);
 						//System.out.println(Axel.getX()+4);
 					}
-					//Dr.setX(Dr.getX()+3);
+					//Axel.setX(Axel.getX()+3);
 				}else if(Dr.getX()>=(Axel.getX())+130) {
-					Dr.setX(Dr.getX()+3);
+					if(Dr.getX()+180<1000) {
+						Dr.setX(Dr.getX()+3);
+						//System.out.println(Axel.getX()+4);
+					}
+					//Axel.setX(Axel.getX()+3);
 				}
 				
 				
