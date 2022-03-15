@@ -31,6 +31,7 @@ public class Main extends Application {
 	boolean staSaltandoAxel=false;
 	boolean staSaltandoAvantiAxel=false;
 	boolean staTirandoPugnoAxel=false;
+	boolean problemaPugnoAxel=false;	
 	int contCamminaAxel=0;
 	int contSaltoAxel=0;
 	int contSaltoAvantiAxel=0;
@@ -124,7 +125,7 @@ public class Main extends Application {
 		//verso sinistra
 		if(e.getText().equals("a")) {
 			//Axel.setX(Axel.getX()-24);
-			if(staSaltandoAvantiAxel==false&&staSaltandoAxel==false) {
+			if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staTirandoPugnoAxel==false) {
 				VersoAxel=false;
 				staCamminandoAxel=true;
 				contCamminaAxel=20;
@@ -135,7 +136,7 @@ public class Main extends Application {
 		//verso destra
 		if(e.getText().equals("d")) {
 			//Axel.setX(Axel.getX()+24);
-			if(staSaltandoAvantiAxel==false&&staSaltandoAxel==false) {
+			if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staTirandoPugnoAxel==false) {
 				VersoAxel=true;
 				staCamminandoAxel=true;
 				contCamminaAxel=20;
@@ -187,13 +188,17 @@ public class Main extends Application {
 		//pugno
 		if(e.getText().equals("s")) {
 			
-			if(staSaltandoAvantiDr==false && staSaltandoDr==false) {
+			if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staCamminandoAxel==false) {
 				Image AxelPugno = new Image(getClass().getResourceAsStream("axel-pugno3.gif"));
+				Image AxelPugnoInv = new Image(getClass().getResourceAsStream("axel-pugno-inv.gif"));
 				if(VersoAxel==true) {
 					Axel.setFill(new ImagePattern(AxelPugno));
 					Axel.setWidth(350);
 				}else if(VersoAxel==false) {
-
+					Axel.setFill(new ImagePattern(AxelPugnoInv));
+					Axel.setX(Axel.getX()-170);
+					Axel.setWidth(350);
+					problemaPugnoAxel=true;
 				}
 				contPugnoAxel=20;
 				staTirandoPugnoAxel=true;
@@ -432,10 +437,15 @@ public class Main extends Application {
 			Axel.setHeight(249);
 			Axel.setWidth(180);
 			Axel.setY(340);
+			//System.out.println("xdr");
 			
 			if(VersoAxel==true) {
 				Axel.setFill(new ImagePattern(AxelRiposo));
 			}else {
+				if(problemaPugnoAxel==true) {
+					Axel.setX(Axel.getX()+170);
+					problemaPugnoAxel=false;
+				}
 				Axel.setFill(new ImagePattern(AxelRiposoInv));
 			}
 		}
