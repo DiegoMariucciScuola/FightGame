@@ -82,7 +82,7 @@ public class Main extends Application {
 	Image DrSaltoInv = new Image(getClass().getResourceAsStream("dr-salto-inv.gif"));
 	
 	//pugno
-	Image AxelPugno = new Image(getClass().getResourceAsStream("axel-pugno2.gif"));
+	//Image AxelPugno = new Image(getClass().getResourceAsStream("axel-pugno2.gif"));
 	
 	@Override
     public void start(Stage primaryStage) throws Exception {
@@ -184,11 +184,22 @@ public class Main extends Application {
 			}
 			
 		}
+		//pugno
 		if(e.getText().equals("s")) {
 			
+			if(staSaltandoAvantiDr==false && staSaltandoDr==false) {
+				Image AxelPugno = new Image(getClass().getResourceAsStream("axel-pugno3.gif"));
+				if(VersoAxel==true) {
+					Axel.setFill(new ImagePattern(AxelPugno));
+					Axel.setWidth(350);
+				}else if(VersoAxel==false) {
+
+				}
+				contPugnoAxel=20;
+				staTirandoPugnoAxel=true;
+			}
 			//System.out.println(Axel.getWidth());
-			contPugnoAxel=20;
-			staTirandoPugnoAxel=true;
+			
 		}
 		
 		
@@ -359,7 +370,7 @@ public class Main extends Application {
 			contSaltoAxel--;
 			//System.out.println("-");
 		}else if(staTirandoPugnoAxel==true) {
-			if(VersoAxel==true) {
+			/*if(VersoAxel==true) {
 				if(contPugnoAxel>0) {
 					Axel.setFill(new ImagePattern(AxelPugno));
 					Axel.setWidth(350);
@@ -368,7 +379,7 @@ public class Main extends Application {
 				if(contPugnoAxel>0) {
 					
 				}
-			}
+			}*/
 			contPugnoAxel--;
 		}else if(staCamminandoAxel==true) {
 			if(VersoAxel==true) {
@@ -417,6 +428,7 @@ public class Main extends Application {
 			staSaltandoAxel=false;
 			//System.out.println("---------");
 			staSaltandoAvantiAxel=false;
+			staTirandoPugnoAxel=false;
 			Axel.setHeight(249);
 			Axel.setWidth(180);
 			Axel.setY(340);
