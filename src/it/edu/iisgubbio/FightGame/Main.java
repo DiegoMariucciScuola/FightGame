@@ -3,6 +3,7 @@ package it.edu.iisgubbio.FightGame;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,18 +33,22 @@ public class Main extends Application {
 	boolean staSaltandoAvantiAxel=false;
 	boolean staTirandoPugnoAxel=false;
 	boolean problemaPugnoAxel=false;	
+
 	int contCamminaAxel=0;
 	int contSaltoAxel=0;
 	int contSaltoAvantiAxel=0;
 	int contPugnoAxel=0;
+	int VitaAxel=100;
 	
 	boolean VersoDr=false;
 	boolean staCamminandoDr=false;
 	boolean staSaltandoDr=false;
 	boolean staSaltandoAvantiDr=false;
+	
 	int contCamminaDr=0;
 	int contSaltoDr=0;
 	int contSaltoAvantiDr=0;
+	int VitaDr=100;
 	
 	Rectangle Axel = new Rectangle(180,249);
 	Rectangle Dr = new Rectangle(180,249);
@@ -188,7 +193,7 @@ public class Main extends Application {
 		//pugno
 		if(e.getText().equals("s")) {
 			
-			if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staCamminandoAxel==false) {
+			if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staCamminandoAxel==false&& staTirandoPugnoAxel==false) {
 				Image AxelPugno = new Image(getClass().getResourceAsStream("axel-pugno3.gif"));
 				Image AxelPugnoInv = new Image(getClass().getResourceAsStream("axel-pugno-inv.gif"));
 				if(VersoAxel==true) {
@@ -199,6 +204,8 @@ public class Main extends Application {
 					Axel.setX(Axel.getX()-170);
 					Axel.setWidth(350);
 					problemaPugnoAxel=true;
+
+				
 				}
 				contPugnoAxel=20;
 				staTirandoPugnoAxel=true;
@@ -284,6 +291,9 @@ public class Main extends Application {
 		}
 	}
 	private void ogniTempo() {
+		
+		Bounds b1 = Axel.getBoundsInParent();
+        Bounds b2 = Dr.getBoundsInParent();
 		
 		/*
 		 * stasaltandoavanti è vero{
@@ -375,16 +385,11 @@ public class Main extends Application {
 			contSaltoAxel--;
 			//System.out.println("-");
 		}else if(staTirandoPugnoAxel==true) {
-			/*if(VersoAxel==true) {
-				if(contPugnoAxel>0) {
-					Axel.setFill(new ImagePattern(AxelPugno));
-					Axel.setWidth(350);
-				}
-			}else if(VersoAxel==false) {
-				if(contPugnoAxel>0) {
-					
-				}
-			}*/
+			if(b1.intersects(b2)) {
+				System.out.println("cont");
+			}
+			
+			
 			contPugnoAxel--;
 		}else if(staCamminandoAxel==true) {
 			if(VersoAxel==true) {
