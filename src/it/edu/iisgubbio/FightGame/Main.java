@@ -295,6 +295,8 @@ public class Main extends Application {
 		Bounds b1 = Axel.getBoundsInParent();
         Bounds b2 = Dr.getBoundsInParent();
 		
+        
+        
 		/*
 		 * stasaltandoavanti è vero{
 		 * 		imposto il salto in avanti
@@ -385,9 +387,30 @@ public class Main extends Application {
 			contSaltoAxel--;
 			//System.out.println("-");
 		}else if(staTirandoPugnoAxel==true) {
-			if(b1.intersects(b2)) {
-				System.out.println("cont");
+			System.out.println((Axel.getX()+500)+" - "+Dr.getX());
+
+			//System.out.println(staTirandoPugnoAxel);
+			if((Axel.getX())<=Dr.getX()) {
+				//System.out.println("1");
+				if(VersoAxel==true) {
+					//System.out.println("2");
+					if(b1.intersects(b2)) {
+						VitaAxel-=1;
+						System.out.println(VitaAxel);
+					}
+				}
 			}
+			if((Axel.getX()+200)>=Dr.getX()){
+				//System.out.println("fgds");
+				if(VersoAxel==false) {
+					//System.out.println("2");
+					if(b1.intersects(b2)) {
+						VitaAxel-=1;
+						System.out.println(VitaAxel);
+					}
+				}
+			}
+			
 			
 			
 			contPugnoAxel--;
