@@ -1,5 +1,7 @@
 package it.edu.iisgubbio.FightGame;
 
+import java.awt.Color;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -33,25 +35,34 @@ public class Main extends Application {
 	boolean staSaltandoAvantiAxel=false;
 	boolean staTirandoPugnoAxel=false;
 	boolean problemaPugnoAxel=false;	
+	boolean vittoriaAxel=false;	
 
 	int contCamminaAxel=0;
 	int contSaltoAxel=0;
 	int contSaltoAvantiAxel=0;
 	int contPugnoAxel=0;
-	int VitaAxel=100;
+	double VitaAxel=100;
 	
 	boolean VersoDr=false;
 	boolean staCamminandoDr=false;
 	boolean staSaltandoDr=false;
 	boolean staSaltandoAvantiDr=false;
+	boolean staTirandoPugnoDr=false;
+	boolean problemaPugnoDr=false;	
+	boolean vittoriaDr=false;	
 	
 	int contCamminaDr=0;
 	int contSaltoDr=0;
 	int contSaltoAvantiDr=0;
-	int VitaDr=100;
+	int contPugnoDr=0;
+	double VitaDr=100;
 	
 	Rectangle Axel = new Rectangle(180,249);
 	Rectangle Dr = new Rectangle(180,249);
+	
+	Rectangle RVitaAxel = new Rectangle(300,30);
+	Rectangle RVitaDr = new Rectangle(300,30);
+	
 	
 	
 	
@@ -100,6 +111,15 @@ public class Main extends Application {
         sfondo.setFitWidth(1000);
         areaDiGioco.getChildren().add(sfondo);
         
+        RVitaAxel.setFill(javafx.scene.paint.Color.GREEN);
+        RVitaAxel.setX(50);
+        RVitaAxel.setY(30);
+        areaDiGioco.getChildren().add(RVitaAxel);
+        
+        RVitaDr.setFill(javafx.scene.paint.Color.GREEN);
+        RVitaDr.setX(650);
+        RVitaDr.setY(30);
+        areaDiGioco.getChildren().add(RVitaDr);
         
         Axel.setFill(new ImagePattern(AxelRiposo));
         Axel.setX(20);
@@ -289,6 +309,29 @@ public class Main extends Application {
 			}
 			
 		}
+		if(e.getCode()==KeyCode.DOWN) {
+			
+			if(staSaltandoAvantiDr==false && staSaltandoDr==false && staCamminandoDr==false&& staTirandoPugnoDr==false) {
+				Image DrPugno = new Image(getClass().getResourceAsStream("dr-pugno.gif"));
+				Image DrPugnoInv = new Image(getClass().getResourceAsStream("dr-pugno-inv.gif"));
+				if(VersoDr==true) {
+					Dr.setFill(new ImagePattern(DrPugno));
+					Dr.setWidth(350);
+				}else if(VersoDr==false) {
+					Dr.setFill(new ImagePattern(DrPugnoInv));
+					Dr.setX(Dr.getX()-170);
+					Dr.setWidth(350);
+					problemaPugnoDr=true;
+
+				
+				}
+				contPugnoDr=20;
+				staTirandoPugnoDr=true;
+			}
+			//System.out.println(Axel.getWidth());
+			
+		}
+		
 	}
 	private void ogniTempo() {
 		
@@ -387,7 +430,7 @@ public class Main extends Application {
 			contSaltoAxel--;
 			//System.out.println("-");
 		}else if(staTirandoPugnoAxel==true) {
-			System.out.println((Axel.getX()+500)+" - "+Dr.getX());
+			//System.out.println((Axel.getX()+500)+" - "+Dr.getX());
 
 			//System.out.println(staTirandoPugnoAxel);
 			if((Axel.getX())<=Dr.getX()) {
@@ -395,8 +438,13 @@ public class Main extends Application {
 				if(VersoAxel==true) {
 					//System.out.println("2");
 					if(b1.intersects(b2)) {
-						VitaAxel-=1;
-						System.out.println(VitaAxel);
+						VitaDr-=0.25;
+						System.out.println("dr:"+VitaDr);
+						RVitaDr.setWidth(VitaDr*3);
+						RVitaDr.setX(650+300-VitaDr*3);
+						if(VitaDr<0) {
+							vittoriaAxel=true;
+						}
 					}
 				}
 			}
@@ -405,8 +453,13 @@ public class Main extends Application {
 				if(VersoAxel==false) {
 					//System.out.println("2");
 					if(b1.intersects(b2)) {
-						VitaAxel-=1;
-						System.out.println(VitaAxel);
+						VitaDr-=0.25;
+						System.out.println("dr:"+VitaDr);
+						RVitaDr.setWidth(VitaDr*3);
+						RVitaDr.setX(650+300-VitaDr*3);
+						if(VitaDr<0) {
+							vittoriaAxel=true;
+						}
 					}
 				}
 			}
@@ -556,6 +609,42 @@ public class Main extends Application {
 			}
 			contSaltoDr--;
 			//System.out.println("-");
+		}else if(staTirandoPugnoDr==true) {
+			//System.out.println((Axel.getX()+500)+" - "+Dr.getX());
+
+			//System.out.println(staTirandoPugnoAxel);
+			if((Dr.getX())<=Axel.getX()) {
+				//System.out.println("1");
+				if(VersoDr==true) {
+					//System.out.println("2");
+					if(b1.intersects(b2)) {
+						VitaAxel-=0.25;
+						System.out.println("axel:"+VitaAxel);
+						RVitaAxel.setWidth(VitaAxel*3);
+						if(VitaAxel<0) {
+							vittoriaDr=true;
+						}
+					}
+				}
+			}
+			if((Dr.getX()+200)>=Axel.getX()){
+				//System.out.println("fgds");
+				if(VersoDr==false) {
+					//System.out.println("2");
+					if(b1.intersects(b2)) {
+						VitaAxel-=0.25;
+						System.out.println("axel:"+VitaAxel);
+						RVitaAxel.setWidth(VitaAxel*3);
+						if(VitaAxel<0) {
+							vittoriaDr=true;
+						}
+					}
+				}
+			}
+			
+			
+			
+			contPugnoDr--;
 		}else if(staCamminandoDr==true) {
 			if(VersoDr==true) {
 				Dr.setFill(new ImagePattern(DrCamminata));
@@ -598,17 +687,24 @@ public class Main extends Application {
 		}
 		
 
-		if(contCamminaDr<=0&&contSaltoDr<=0&&contSaltoAvantiDr<=0) {
+		if(contCamminaDr<=0&&contSaltoDr<=0&&contSaltoAvantiDr<=0&&contPugnoDr<=0) {
 			staCamminandoDr=false;
 			staSaltandoDr=false;
 			//System.out.println("---------");
 			staSaltandoAvantiDr=false;
+			staTirandoPugnoDr=false;
 			Dr.setHeight(249);
+			Dr.setWidth(180);
 			Dr.setY(340);
+			//System.out.println("xdr");
 			
 			if(VersoDr==true) {
 				Dr.setFill(new ImagePattern(DrRiposo));
 			}else {
+				if(problemaPugnoDr==true) {
+					Dr.setX(Dr.getX()+170);
+					problemaPugnoDr=false;
+				}
 				Dr.setFill(new ImagePattern(DrRiposoInv));
 			}
 		}
