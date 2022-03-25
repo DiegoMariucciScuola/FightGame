@@ -21,6 +21,8 @@ import javafx.util.Duration;
 public class Main extends Application {
 	Pane areaDiGioco = new Pane();
 	double tempo=0.010;
+	boolean giocoIniziato=false;
+	
 	boolean compenetratoAxel=false;
 	boolean compenetratoDr=false;
 	
@@ -61,7 +63,14 @@ public class Main extends Application {
 	Rectangle Dr = new Rectangle(180,249);
 	
 	Rectangle RVitaAxel = new Rectangle(300,30);
+	Rectangle RVitaAxel2 = new Rectangle(300,30);
 	Rectangle RVitaDr = new Rectangle(300,30);
+	Rectangle RVitaDr2 = new Rectangle(300,30);
+	
+	Rectangle Start = new Rectangle(350,150);
+	Rectangle wasd = new Rectangle(190,179);
+	Rectangle frecce = new Rectangle(190,179);
+	Rectangle Fight = new Rectangle(430,230);
 	
 	
 	
@@ -98,6 +107,11 @@ public class Main extends Application {
 	Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
 	Image DrSaltoInv = new Image(getClass().getResourceAsStream("dr-salto-inv.gif"));
 	
+	Image ImgStart = new Image(getClass().getResourceAsStream("start.png"));
+	Image ImgWasd = new Image(getClass().getResourceAsStream("wasd.png"));
+	Image ImgFrecce = new Image(getClass().getResourceAsStream("frecce.png"));
+	Image ImgFight = new Image(getClass().getResourceAsStream("fight.png"));
+	
 	//pugno
 	//Image AxelPugno = new Image(getClass().getResourceAsStream("axel-pugno2.gif"));
 	
@@ -110,6 +124,16 @@ public class Main extends Application {
         sfondo.setPreserveRatio(true);
         sfondo.setFitWidth(1000);
         areaDiGioco.getChildren().add(sfondo);
+        
+        RVitaAxel2.setFill(javafx.scene.paint.Color.GREY);
+        RVitaAxel2.setX(50);
+        RVitaAxel2.setY(30);
+        areaDiGioco.getChildren().add(RVitaAxel2);
+        
+        RVitaDr2.setFill(javafx.scene.paint.Color.GREY);
+        RVitaDr2.setX(650);
+        RVitaDr2.setY(30);
+        areaDiGioco.getChildren().add(RVitaDr2);
         
         RVitaAxel.setFill(javafx.scene.paint.Color.GREEN);
         RVitaAxel.setX(50);
@@ -131,6 +155,41 @@ public class Main extends Application {
         Dr.setY(340);
         areaDiGioco.getChildren().add(Dr);
         
+        Start.setFill(new ImagePattern(ImgStart));
+        Start.setX(325);
+        Start.setY(400);
+        areaDiGioco.getChildren().add(Start);
+        
+        wasd.setFill(new ImagePattern(ImgWasd));
+        wasd.setX(20);
+        wasd.setY(160);
+        areaDiGioco.getChildren().add(wasd);
+        
+        frecce.setFill(new ImagePattern(ImgFrecce));
+        frecce.setX(800);
+        frecce.setY(160);
+        areaDiGioco.getChildren().add(frecce);
+        
+        Fight.setFill(new ImagePattern(ImgFight));
+        Fight.setX(285);
+        Fight.setY(120);
+        areaDiGioco.getChildren().add(Fight);
+        
+        Start.setOnMouseClicked(
+	            event -> {giocoIniziato=true; System.out.println("fas");
+	            Fight.setX(1285);
+	            wasd.setX(1285);
+	            frecce.setX(1285);
+	            Start.setX(1285);
+	            }
+	    );
+        
+
+        
+        /*ImageView sfondoInizio = new ImageView(iBase);
+        sfondoInizio.setPreserveRatio(true);
+        sfondoInizio.setFitWidth(1000);
+        areaDiGioco.getChildren().add(sfondoInizio);*/
         
         Scene scena = new Scene(areaDiGioco);
         primaryStage.setScene(scena);
@@ -146,191 +205,197 @@ public class Main extends Application {
 	}
 	private void movimenti(KeyEvent e) {
 		
-		//prendo i comandi dei movimenti di Axel
-		//verso sinistra
-		if(e.getText().equals("a")) {
-			//Axel.setX(Axel.getX()-24);
-			if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staTirandoPugnoAxel==false) {
-				VersoAxel=false;
-				staCamminandoAxel=true;
-				contCamminaAxel=20;
-				Axel.setWidth(180);
+		if(giocoIniziato==true) {
+			
+			//prendo i comandi dei movimenti di Axel
+			//verso sinistra
+			if(e.getText().equals("a")) {
+				//Axel.setX(Axel.getX()-24);
+				if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staTirandoPugnoAxel==false) {
+					VersoAxel=false;
+					staCamminandoAxel=true;
+					contCamminaAxel=20;
+					Axel.setWidth(180);
+				}
+				
 			}
-			
-		}
-		//verso destra
-		if(e.getText().equals("d")) {
-			//Axel.setX(Axel.getX()+24);
-			if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staTirandoPugnoAxel==false) {
-				VersoAxel=true;
-				staCamminandoAxel=true;
-				contCamminaAxel=20;
-				Axel.setWidth(180);
+			//verso destra
+			if(e.getText().equals("d")) {
+				//Axel.setX(Axel.getX()+24);
+				if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staTirandoPugnoAxel==false) {
+					VersoAxel=true;
+					staCamminandoAxel=true;
+					contCamminaAxel=20;
+					Axel.setWidth(180);
+				}
+				
 			}
-			
-		}
-		//salto
-		if(e.getText().equals("w")) {
-			
-			if(staCamminandoAxel==true) {
-				if(staSaltandoAvantiAxel==false) {
-					if(VersoAxel==true) {
-						staSaltandoAvantiAxel=true;
-						Axel.setY(Axel.getY()-111);
-						Axel.setHeight(360);
-						Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto.gif"));
-						Axel.setFill(new ImagePattern(AxelSalto));
-						//staSaltandoAxel=true;
-						contSaltoAvantiAxel=100;
-					}else if(VersoAxel==false) {
-						staSaltandoAvantiAxel=true;
-						Axel.setY(Axel.getY()-111);
-						Axel.setHeight(360);
-						Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto-inv.gif"));
-						Axel.setFill(new ImagePattern(AxelSalto));
-						//staSaltandoAxel=true;
-						contSaltoAvantiAxel=100;
+			//salto
+			if(e.getText().equals("w")) {
+				
+				if(staCamminandoAxel==true) {
+					if(staSaltandoAvantiAxel==false) {
+						if(VersoAxel==true) {
+							staSaltandoAvantiAxel=true;
+							Axel.setY(Axel.getY()-111);
+							Axel.setHeight(360);
+							Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto.gif"));
+							Axel.setFill(new ImagePattern(AxelSalto));
+							//staSaltandoAxel=true;
+							contSaltoAvantiAxel=100;
+						}else if(VersoAxel==false) {
+							staSaltandoAvantiAxel=true;
+							Axel.setY(Axel.getY()-111);
+							Axel.setHeight(360);
+							Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto-inv.gif"));
+							Axel.setFill(new ImagePattern(AxelSalto));
+							//staSaltandoAxel=true;
+							contSaltoAvantiAxel=100;
+						}
+						
 					}
 					
+				}else if(staSaltandoAxel==false) {
+					Axel.setY(Axel.getY()-111);
+					Axel.setHeight(360);
+					Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto.gif"));
+					if(VersoAxel==true) {
+						AxelSalto = new Image(getClass().getResourceAsStream("axel-salto.gif"));
+					}else if(VersoAxel==false) {
+						AxelSalto = new Image(getClass().getResourceAsStream("axel-salto-inv.gif"));
+					}
+					
+					Axel.setFill(new ImagePattern(AxelSalto));
+					staSaltandoAxel=true;
+					contSaltoAxel=100;
 				}
 				
-			}else if(staSaltandoAxel==false) {
-				Axel.setY(Axel.getY()-111);
-				Axel.setHeight(360);
-				Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto.gif"));
-				if(VersoAxel==true) {
-					AxelSalto = new Image(getClass().getResourceAsStream("axel-salto.gif"));
-				}else if(VersoAxel==false) {
-					AxelSalto = new Image(getClass().getResourceAsStream("axel-salto-inv.gif"));
-				}
-				
-				Axel.setFill(new ImagePattern(AxelSalto));
-				staSaltandoAxel=true;
-				contSaltoAxel=100;
 			}
-			
-		}
-		//pugno
-		if(e.getText().equals("s")) {
-			
-			if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staCamminandoAxel==false&& staTirandoPugnoAxel==false) {
-				Image AxelPugno = new Image(getClass().getResourceAsStream("axel-pugno3.gif"));
-				Image AxelPugnoInv = new Image(getClass().getResourceAsStream("axel-pugno-inv.gif"));
-				if(VersoAxel==true) {
-					Axel.setFill(new ImagePattern(AxelPugno));
-					Axel.setWidth(350);
-				}else if(VersoAxel==false) {
-					Axel.setFill(new ImagePattern(AxelPugnoInv));
-					Axel.setX(Axel.getX()-170);
-					Axel.setWidth(350);
-					problemaPugnoAxel=true;
+			//pugno
+			if(e.getText().equals("s")) {
+				
+				if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staCamminandoAxel==false&& staTirandoPugnoAxel==false) {
+					Image AxelPugno = new Image(getClass().getResourceAsStream("axel-pugno3.gif"));
+					Image AxelPugnoInv = new Image(getClass().getResourceAsStream("axel-pugno-inv.gif"));
+					if(VersoAxel==true) {
+						Axel.setFill(new ImagePattern(AxelPugno));
+						Axel.setWidth(350);
+					}else if(VersoAxel==false) {
+						Axel.setFill(new ImagePattern(AxelPugnoInv));
+						Axel.setX(Axel.getX()-170);
+						Axel.setWidth(350);
+						problemaPugnoAxel=true;
 
-				
+					
+					}
+					contPugnoAxel=20;
+					staTirandoPugnoAxel=true;
 				}
-				contPugnoAxel=20;
-				staTirandoPugnoAxel=true;
+				//System.out.println(Axel.getWidth());
+				
 			}
-			//System.out.println(Axel.getWidth());
 			
-		}
-		
-		
-		
-		
-		
-		//prendo i comandi dei movimenti di Dr
-		//verso sinistra
-		if(e.getCode()==KeyCode.LEFT) {
-			if(staSaltandoAvantiDr==false&&staSaltandoDr==false) {
+			
+			
+			
+			
+			//prendo i comandi dei movimenti di Dr
+			//verso sinistra
+			if(e.getCode()==KeyCode.LEFT) {
+				if(staSaltandoAvantiDr==false&&staSaltandoDr==false) {
+					VersoDr=false;
+					staCamminandoDr=true;
+					contCamminaDr=20;
+				}
+				
+				/*
+				//Dr.setX(Dr.getX()-24);
 				VersoDr=false;
 				staCamminandoDr=true;
 				contCamminaDr=20;
+				*/
 			}
-			
-			/*
-			//Dr.setX(Dr.getX()-24);
-			VersoDr=false;
-			staCamminandoDr=true;
-			contCamminaDr=20;
-			*/
-		}
-		//verso destra
-		if(e.getCode()==KeyCode.RIGHT) {
-			if(staSaltandoAvantiDr==false&&staSaltandoDr==false) {
+			//verso destra
+			if(e.getCode()==KeyCode.RIGHT) {
+				if(staSaltandoAvantiDr==false&&staSaltandoDr==false) {
+					VersoDr=true;
+					staCamminandoDr=true;
+					contCamminaDr=20;
+				}
+				/*
+				//Dr.setX(Dr.getX()+24);
 				VersoDr=true;
 				staCamminandoDr=true;
 				contCamminaDr=20;
+				*/
 			}
-			/*
-			//Dr.setX(Dr.getX()+24);
-			VersoDr=true;
-			staCamminandoDr=true;
-			contCamminaDr=20;
-			*/
-		}
-		//salto
-		if(e.getCode()==KeyCode.UP) {
-			
-			if(staCamminandoDr==true) {
-				if(staSaltandoAvantiDr==false) {
-					if(VersoDr==true) {
-						staSaltandoAvantiDr=true;
-						Dr.setY(Dr.getY()-111);
-						Dr.setHeight(360);
-						Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
-						Dr.setFill(new ImagePattern(DrSalto));
-						//staSaltandoAxel=true;
-						contSaltoAvantiDr=100;
-					}else if(VersoDr==false) {
-						staSaltandoAvantiDr=true;
-						Dr.setY(Dr.getY()-111);
-						Dr.setHeight(360);
-						Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto-inv.gif"));
-						Dr.setFill(new ImagePattern(DrSalto));
-						//staSaltandoAxel=true;
-						contSaltoAvantiDr=100;
+			//salto
+			if(e.getCode()==KeyCode.UP) {
+				
+				if(staCamminandoDr==true) {
+					if(staSaltandoAvantiDr==false) {
+						if(VersoDr==true) {
+							staSaltandoAvantiDr=true;
+							Dr.setY(Dr.getY()-111);
+							Dr.setHeight(360);
+							Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
+							Dr.setFill(new ImagePattern(DrSalto));
+							//staSaltandoAxel=true;
+							contSaltoAvantiDr=100;
+						}else if(VersoDr==false) {
+							staSaltandoAvantiDr=true;
+							Dr.setY(Dr.getY()-111);
+							Dr.setHeight(360);
+							Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto-inv.gif"));
+							Dr.setFill(new ImagePattern(DrSalto));
+							//staSaltandoAxel=true;
+							contSaltoAvantiDr=100;
+						}
+						
 					}
 					
+				}else if(staSaltandoDr==false) {
+					Dr.setY(Dr.getY()-111);
+					Dr.setHeight(360);
+					Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
+					if(VersoDr==true) {
+						DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
+					}else if(VersoDr==false) {
+						DrSalto = new Image(getClass().getResourceAsStream("dr-salto-inv.gif"));
+					}
+					
+					Dr.setFill(new ImagePattern(DrSalto));
+					staSaltandoDr=true;
+					contSaltoDr=100;
 				}
 				
-			}else if(staSaltandoDr==false) {
-				Dr.setY(Dr.getY()-111);
-				Dr.setHeight(360);
-				Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
-				if(VersoDr==true) {
-					DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
-				}else if(VersoDr==false) {
-					DrSalto = new Image(getClass().getResourceAsStream("dr-salto-inv.gif"));
-				}
-				
-				Dr.setFill(new ImagePattern(DrSalto));
-				staSaltandoDr=true;
-				contSaltoDr=100;
 			}
-			
-		}
-		if(e.getCode()==KeyCode.DOWN) {
-			
-			if(staSaltandoAvantiDr==false && staSaltandoDr==false && staCamminandoDr==false&& staTirandoPugnoDr==false) {
-				Image DrPugno = new Image(getClass().getResourceAsStream("dr-pugno.gif"));
-				Image DrPugnoInv = new Image(getClass().getResourceAsStream("dr-pugno-inv.gif"));
-				if(VersoDr==true) {
-					Dr.setFill(new ImagePattern(DrPugno));
-					Dr.setWidth(350);
-				}else if(VersoDr==false) {
-					Dr.setFill(new ImagePattern(DrPugnoInv));
-					Dr.setX(Dr.getX()-170);
-					Dr.setWidth(350);
-					problemaPugnoDr=true;
+			if(e.getCode()==KeyCode.DOWN) {
+				
+				if(staSaltandoAvantiDr==false && staSaltandoDr==false && staCamminandoDr==false&& staTirandoPugnoDr==false) {
+					Image DrPugno = new Image(getClass().getResourceAsStream("dr-pugno.gif"));
+					Image DrPugnoInv = new Image(getClass().getResourceAsStream("dr-pugno-inv.gif"));
+					if(VersoDr==true) {
+						Dr.setFill(new ImagePattern(DrPugno));
+						Dr.setWidth(350);
+					}else if(VersoDr==false) {
+						Dr.setFill(new ImagePattern(DrPugnoInv));
+						Dr.setX(Dr.getX()-170);
+						Dr.setWidth(350);
+						problemaPugnoDr=true;
 
-				
+					
+					}
+					contPugnoDr=20;
+					staTirandoPugnoDr=true;
 				}
-				contPugnoDr=20;
-				staTirandoPugnoDr=true;
+				//System.out.println(Axel.getWidth());
+				
 			}
-			//System.out.println(Axel.getWidth());
 			
 		}
+		
+		
 		
 	}
 	private void ogniTempo() {
@@ -709,6 +774,53 @@ public class Main extends Application {
 			}
 		}
 		
+		if(vittoriaDr==true) {
+			vittoriaDr=false;
+			giocoIniziato=false; 
+            Fight.setX(285);
+            wasd.setX(20);
+            frecce.setX(800);
+            Start.setX(325);
+            
+            Axel.setX(20);
+            if(VersoDr==false) {
+            	Dr.setX(630);
+            }else {
+            	Dr.setX(800);
+            }
+            VersoAxel=true;
+            VersoDr=false;
+            VitaAxel=100;
+            RVitaAxel.setWidth(100*3);
+            VitaDr=100;
+            RVitaDr.setWidth(100*3);
+            RVitaDr.setX(650);
+		}
+		
+		if(vittoriaAxel==true) {
+			vittoriaAxel=false;
+			giocoIniziato=false; 
+            Fight.setX(285);
+            wasd.setX(20);
+            frecce.setX(800);
+            Start.setX(325);
+            
+            Axel.setX(20);
+            if(VersoDr==false) {
+            	Dr.setX(630);
+            }else {
+            	Dr.setX(800);
+            }
+            
+            //Dr.setX(630);
+            VersoAxel=true;
+            VersoDr=false;
+            VitaAxel=100;
+            RVitaAxel.setWidth(100*3);
+            VitaDr=100;
+            RVitaDr.setWidth(100*3);
+            RVitaDr.setX(650);
+		}
 	}
 	
 	
