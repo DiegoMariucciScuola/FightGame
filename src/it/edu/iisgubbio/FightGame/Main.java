@@ -62,6 +62,12 @@ public class Main extends Application {
 	Rectangle Axel = new Rectangle(180,249);
 	Rectangle Dr = new Rectangle(180,249);
 	
+	Rectangle AxelLogo = new Rectangle(70,92);
+	Rectangle DrLogo = new Rectangle(70,92);
+	
+	Rectangle AxelLogoVittoria = new Rectangle(210,276);
+	Rectangle DrLogoVittoria = new Rectangle(210,276);
+	
 	Rectangle RVitaAxel = new Rectangle(300,30);
 	Rectangle RVitaAxel2 = new Rectangle(300,30);
 	Rectangle RVitaDr = new Rectangle(300,30);
@@ -71,6 +77,7 @@ public class Main extends Application {
 	Rectangle wasd = new Rectangle(190,179);
 	Rectangle frecce = new Rectangle(190,179);
 	Rectangle Fight = new Rectangle(430,230);
+	Rectangle youWin = new Rectangle(330,157);
 	
 	
 	
@@ -111,6 +118,10 @@ public class Main extends Application {
 	Image ImgWasd = new Image(getClass().getResourceAsStream("wasd.png"));
 	Image ImgFrecce = new Image(getClass().getResourceAsStream("frecce.png"));
 	Image ImgFight = new Image(getClass().getResourceAsStream("fight.png"));
+	Image ImgYouWin = new Image(getClass().getResourceAsStream("you-win.png"));
+	
+	Image ImgAxelLogo = new Image(getClass().getResourceAsStream("axel-logo.png"));
+	Image ImgDrLogo = new Image(getClass().getResourceAsStream("dr-logo.jpg"));
 	
 	//pugno
 	//Image AxelPugno = new Image(getClass().getResourceAsStream("axel-pugno2.gif"));
@@ -126,22 +137,22 @@ public class Main extends Application {
         areaDiGioco.getChildren().add(sfondo);
         
         RVitaAxel2.setFill(javafx.scene.paint.Color.GREY);
-        RVitaAxel2.setX(50);
+        RVitaAxel2.setX(90);
         RVitaAxel2.setY(30);
         areaDiGioco.getChildren().add(RVitaAxel2);
         
         RVitaDr2.setFill(javafx.scene.paint.Color.GREY);
-        RVitaDr2.setX(650);
+        RVitaDr2.setX(610);
         RVitaDr2.setY(30);
         areaDiGioco.getChildren().add(RVitaDr2);
         
         RVitaAxel.setFill(javafx.scene.paint.Color.GREEN);
-        RVitaAxel.setX(50);
+        RVitaAxel.setX(90);
         RVitaAxel.setY(30);
         areaDiGioco.getChildren().add(RVitaAxel);
         
         RVitaDr.setFill(javafx.scene.paint.Color.GREEN);
-        RVitaDr.setX(650);
+        RVitaDr.setX(610);
         RVitaDr.setY(30);
         areaDiGioco.getChildren().add(RVitaDr);
         
@@ -154,6 +165,24 @@ public class Main extends Application {
         Dr.setX(800);
         Dr.setY(340);
         areaDiGioco.getChildren().add(Dr);
+        
+        AxelLogo.setFill(new ImagePattern(ImgAxelLogo));
+        AxelLogo.setX(20);
+        AxelLogo.setY(5);
+        areaDiGioco.getChildren().add(AxelLogo);
+        
+        DrLogo.setFill(new ImagePattern(ImgDrLogo));
+        DrLogo.setX(910);
+        DrLogo.setY(5);
+        areaDiGioco.getChildren().add(DrLogo);
+        
+        AxelLogoVittoria.setFill(new ImagePattern(ImgAxelLogo));
+        //AxelLogoVittoria.setX(-285);
+        //areaDiGioco.getChildren().add(AxelLogoVittoria);
+        
+        DrLogoVittoria.setFill(new ImagePattern(ImgDrLogo));
+        //DrLogoVittoria.setX(-285);
+        //areaDiGioco.getChildren().add(DrLogoVittoria);
         
         Start.setFill(new ImagePattern(ImgStart));
         Start.setX(325);
@@ -175,12 +204,22 @@ public class Main extends Application {
         Fight.setY(120);
         areaDiGioco.getChildren().add(Fight);
         
+        youWin.setFill(new ImagePattern(ImgYouWin));
+        //youWin.setX(285);
+        //youWin.setY(120);
+        
+        
         Start.setOnMouseClicked(
 	            event -> {giocoIniziato=true; System.out.println("fas");
 	            Fight.setX(1285);
 	            wasd.setX(1285);
 	            frecce.setX(1285);
 	            Start.setX(1285);
+	            areaDiGioco.getChildren().remove(AxelLogoVittoria);
+	            areaDiGioco.getChildren().remove(DrLogoVittoria);
+	            areaDiGioco.getChildren().remove(youWin);
+	            //AxelLogoVittoria.setX(1285);
+	            //DrLogoVittoria.setX(1285);
 	            }
 	    );
         
@@ -506,7 +545,7 @@ public class Main extends Application {
 						VitaDr-=0.25;
 						System.out.println("dr:"+VitaDr);
 						RVitaDr.setWidth(VitaDr*3);
-						RVitaDr.setX(650+300-VitaDr*3);
+						RVitaDr.setX(610+300-VitaDr*3);
 						if(VitaDr<0) {
 							vittoriaAxel=true;
 						}
@@ -521,7 +560,7 @@ public class Main extends Application {
 						VitaDr-=0.25;
 						System.out.println("dr:"+VitaDr);
 						RVitaDr.setWidth(VitaDr*3);
-						RVitaDr.setX(650+300-VitaDr*3);
+						RVitaDr.setX(610+300-VitaDr*3);
 						if(VitaDr<0) {
 							vittoriaAxel=true;
 						}
@@ -777,13 +816,13 @@ public class Main extends Application {
 		if(vittoriaDr==true) {
 			vittoriaDr=false;
 			giocoIniziato=false; 
-            Fight.setX(285);
+            //Fight.setX(285);
             wasd.setX(20);
             frecce.setX(800);
             Start.setX(325);
             
             Axel.setX(20);
-            if(VersoDr==false) {
+            if(VersoDr==false && staTirandoPugnoDr==true) {
             	Dr.setX(630);
             }else {
             	Dr.setX(800);
@@ -794,19 +833,27 @@ public class Main extends Application {
             RVitaAxel.setWidth(100*3);
             VitaDr=100;
             RVitaDr.setWidth(100*3);
-            RVitaDr.setX(650);
+            RVitaDr.setX(610);
+            
+            areaDiGioco.getChildren().add(DrLogoVittoria);
+            DrLogoVittoria.setX(395);
+            DrLogoVittoria.setY(60);
+            
+            areaDiGioco.getChildren().add(youWin);
+            youWin.setX(320);
+            youWin.setY(265);
 		}
 		
 		if(vittoriaAxel==true) {
 			vittoriaAxel=false;
 			giocoIniziato=false; 
-            Fight.setX(285);
+            //Fight.setX(285);
             wasd.setX(20);
             frecce.setX(800);
             Start.setX(325);
             
             Axel.setX(20);
-            if(VersoDr==false) {
+            if(VersoDr==false && staTirandoPugnoDr==true) {
             	Dr.setX(630);
             }else {
             	Dr.setX(800);
@@ -819,7 +866,15 @@ public class Main extends Application {
             RVitaAxel.setWidth(100*3);
             VitaDr=100;
             RVitaDr.setWidth(100*3);
-            RVitaDr.setX(650);
+            RVitaDr.setX(610);
+            
+            areaDiGioco.getChildren().add(AxelLogoVittoria);
+            AxelLogoVittoria.setX(395);
+            AxelLogoVittoria.setY(60);
+            
+            areaDiGioco.getChildren().add(youWin);
+            youWin.setX(320);
+            youWin.setY(265);
 		}
 	}
 	
