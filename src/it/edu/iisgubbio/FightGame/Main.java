@@ -123,8 +123,7 @@ public class Main extends Application {
 	Image ImgAxelLogo = new Image(getClass().getResourceAsStream("axel-logo.png"));
 	Image ImgDrLogo = new Image(getClass().getResourceAsStream("dr-logo.jpg"));
 	
-	//pugno
-	//Image AxelPugno = new Image(getClass().getResourceAsStream("axel-pugno2.gif"));
+
 	
 	@Override
     public void start(Stage primaryStage) throws Exception {
@@ -177,12 +176,8 @@ public class Main extends Application {
         areaDiGioco.getChildren().add(DrLogo);
         
         AxelLogoVittoria.setFill(new ImagePattern(ImgAxelLogo));
-        //AxelLogoVittoria.setX(-285);
-        //areaDiGioco.getChildren().add(AxelLogoVittoria);
-        
+
         DrLogoVittoria.setFill(new ImagePattern(ImgDrLogo));
-        //DrLogoVittoria.setX(-285);
-        //areaDiGioco.getChildren().add(DrLogoVittoria);
         
         Start.setFill(new ImagePattern(ImgStart));
         Start.setX(325);
@@ -205,12 +200,9 @@ public class Main extends Application {
         areaDiGioco.getChildren().add(Fight);
         
         youWin.setFill(new ImagePattern(ImgYouWin));
-        //youWin.setX(285);
-        //youWin.setY(120);
-        
         
         Start.setOnMouseClicked(
-	            event -> {giocoIniziato=true; System.out.println("fas");
+	            event -> {giocoIniziato=true; 
 	            Fight.setX(1285);
 	            wasd.setX(1285);
 	            frecce.setX(1285);
@@ -218,21 +210,12 @@ public class Main extends Application {
 	            areaDiGioco.getChildren().remove(AxelLogoVittoria);
 	            areaDiGioco.getChildren().remove(DrLogoVittoria);
 	            areaDiGioco.getChildren().remove(youWin);
-	            //AxelLogoVittoria.setX(1285);
-	            //DrLogoVittoria.setX(1285);
 	            }
 	    );
         
-
-        
-        /*ImageView sfondoInizio = new ImageView(iBase);
-        sfondoInizio.setPreserveRatio(true);
-        sfondoInizio.setFitWidth(1000);
-        areaDiGioco.getChildren().add(sfondoInizio);*/
-        
         Scene scena = new Scene(areaDiGioco);
         primaryStage.setScene(scena);
-        primaryStage.setTitle("CD");
+        primaryStage.setTitle("Fight Game");
         primaryStage.show();
         
         Timeline timeline = new Timeline(new KeyFrame(
@@ -242,14 +225,13 @@ public class Main extends Application {
         timeline.play();
         scena.setOnKeyPressed(e->movimenti(e));  
 	}
+	
 	private void movimenti(KeyEvent e) {
-		
 		if(giocoIniziato==true) {
 			
 			//prendo i comandi dei movimenti di Axel
 			//verso sinistra
 			if(e.getText().equals("a")) {
-				//Axel.setX(Axel.getX()-24);
 				if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staTirandoPugnoAxel==false) {
 					VersoAxel=false;
 					staCamminandoAxel=true;
@@ -258,9 +240,9 @@ public class Main extends Application {
 				}
 				
 			}
+			
 			//verso destra
 			if(e.getText().equals("d")) {
-				//Axel.setX(Axel.getX()+24);
 				if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staTirandoPugnoAxel==false) {
 					VersoAxel=true;
 					staCamminandoAxel=true;
@@ -269,9 +251,9 @@ public class Main extends Application {
 				}
 				
 			}
+			
 			//salto
 			if(e.getText().equals("w")) {
-				
 				if(staCamminandoAxel==true) {
 					if(staSaltandoAvantiAxel==false) {
 						if(VersoAxel==true) {
@@ -280,7 +262,6 @@ public class Main extends Application {
 							Axel.setHeight(360);
 							Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto.gif"));
 							Axel.setFill(new ImagePattern(AxelSalto));
-							//staSaltandoAxel=true;
 							contSaltoAvantiAxel=100;
 						}else if(VersoAxel==false) {
 							staSaltandoAvantiAxel=true;
@@ -288,7 +269,6 @@ public class Main extends Application {
 							Axel.setHeight(360);
 							Image AxelSalto = new Image(getClass().getResourceAsStream("axel-salto-inv.gif"));
 							Axel.setFill(new ImagePattern(AxelSalto));
-							//staSaltandoAxel=true;
 							contSaltoAvantiAxel=100;
 						}
 						
@@ -310,9 +290,9 @@ public class Main extends Application {
 				}
 				
 			}
+			
 			//pugno
 			if(e.getText().equals("s")) {
-				
 				if(staSaltandoAvantiAxel==false && staSaltandoAxel==false && staCamminandoAxel==false&& staTirandoPugnoAxel==false) {
 					Image AxelPugno = new Image(getClass().getResourceAsStream("axel-pugno3.gif"));
 					Image AxelPugnoInv = new Image(getClass().getResourceAsStream("axel-pugno-inv.gif"));
@@ -330,14 +310,8 @@ public class Main extends Application {
 					contPugnoAxel=20;
 					staTirandoPugnoAxel=true;
 				}
-				//System.out.println(Axel.getWidth());
-				
 			}
-			
-			
-			
-			
-			
+						
 			//prendo i comandi dei movimenti di Dr
 			//verso sinistra
 			if(e.getCode()==KeyCode.LEFT) {
@@ -346,14 +320,8 @@ public class Main extends Application {
 					staCamminandoDr=true;
 					contCamminaDr=20;
 				}
-				
-				/*
-				//Dr.setX(Dr.getX()-24);
-				VersoDr=false;
-				staCamminandoDr=true;
-				contCamminaDr=20;
-				*/
 			}
+			
 			//verso destra
 			if(e.getCode()==KeyCode.RIGHT) {
 				if(staSaltandoAvantiDr==false&&staSaltandoDr==false) {
@@ -361,16 +329,10 @@ public class Main extends Application {
 					staCamminandoDr=true;
 					contCamminaDr=20;
 				}
-				/*
-				//Dr.setX(Dr.getX()+24);
-				VersoDr=true;
-				staCamminandoDr=true;
-				contCamminaDr=20;
-				*/
 			}
+			
 			//salto
 			if(e.getCode()==KeyCode.UP) {
-				
 				if(staCamminandoDr==true) {
 					if(staSaltandoAvantiDr==false) {
 						if(VersoDr==true) {
@@ -379,7 +341,6 @@ public class Main extends Application {
 							Dr.setHeight(360);
 							Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto.gif"));
 							Dr.setFill(new ImagePattern(DrSalto));
-							//staSaltandoAxel=true;
 							contSaltoAvantiDr=100;
 						}else if(VersoDr==false) {
 							staSaltandoAvantiDr=true;
@@ -387,7 +348,6 @@ public class Main extends Application {
 							Dr.setHeight(360);
 							Image DrSalto = new Image(getClass().getResourceAsStream("dr-salto-inv.gif"));
 							Dr.setFill(new ImagePattern(DrSalto));
-							//staSaltandoAxel=true;
 							contSaltoAvantiDr=100;
 						}
 						
@@ -406,9 +366,9 @@ public class Main extends Application {
 					Dr.setFill(new ImagePattern(DrSalto));
 					staSaltandoDr=true;
 					contSaltoDr=100;
-				}
-				
+				}	
 			}
+			
 			if(e.getCode()==KeyCode.DOWN) {
 				
 				if(staSaltandoAvantiDr==false && staSaltandoDr==false && staCamminandoDr==false&& staTirandoPugnoDr==false) {
@@ -422,27 +382,18 @@ public class Main extends Application {
 						Dr.setX(Dr.getX()-170);
 						Dr.setWidth(350);
 						problemaPugnoDr=true;
-
-					
 					}
 					contPugnoDr=20;
 					staTirandoPugnoDr=true;
 				}
-				//System.out.println(Axel.getWidth());
-				
 			}
-			
 		}
-		
-		
-		
 	}
+	
 	private void ogniTempo() {
 		
 		Bounds b1 = Axel.getBoundsInParent();
         Bounds b2 = Dr.getBoundsInParent();
-		
-        
         
 		/*
 		 * stasaltandoavanti è vero{
@@ -457,9 +408,11 @@ public class Main extends Application {
 		if(Axel.getX()+90>(Dr.getX())+230||Axel.getX()+90<(Dr.getX())-50) {
 			compenetratoAxel=false;
 		}
+		
 		if(Dr.getX()+90>(Axel.getX())+230||Dr.getX()+90<(Axel.getX())-50) {
 			compenetratoDr=false;
 		}
+		
 		if(compenetratoAxel==true) {
 			if(Axel.getX()+90<(Dr.getX())+90) {
 				Axel.setX(Axel.getX()-4);
@@ -467,6 +420,7 @@ public class Main extends Application {
 				Axel.setX(Axel.getX()+4);
 			}
 		}
+		
 		if(compenetratoDr==true) {
 			if(Dr.getX()+90<(Axel.getX())+90) {
 				Dr.setX(Dr.getX()-4);
@@ -474,7 +428,6 @@ public class Main extends Application {
 				Dr.setX(Dr.getX()+4);
 			}
 		}
-		
 		
 		if(staSaltandoAvantiAxel==true) {
 			if(VersoAxel==true) {
@@ -501,29 +454,26 @@ public class Main extends Application {
 			}else if(VersoAxel==false) {
 				if(contSaltoAvantiAxel>=50) {
 					Axel.setY(Axel.getY()-4);
+					
 					if(Axel.getX()-4>0) {
 						Axel.setX(Axel.getX()-4);
 					}
 				}else {
 					Axel.setY(Axel.getY()+4);
-					//System.out.println("-");
 					if(Axel.getX()+90<=(Dr.getX())+130&&Axel.getX()+90>=(Dr.getX())+50) {
 						if(contSaltoAvantiAxel<30) {
 							compenetratoAxel=true;
-							//System.out.println("comp");
 						}
-						
 					}
+					
 					if(Axel.getX()-4>0) {
 						Axel.setX(Axel.getX()-4);
 					}
 				}
-				//System.out.println(contSaltoAvantiAxel);
 				contSaltoAvantiAxel--;
 				contCamminaAxel--;
 				contSaltoAxel--;
 			}
-			
 			
 		}else if(staSaltandoAxel==true) {
 			if(contSaltoAxel>=50) {
@@ -532,18 +482,11 @@ public class Main extends Application {
 				Axel.setY(Axel.getY()+4);
 			}
 			contSaltoAxel--;
-			//System.out.println("-");
 		}else if(staTirandoPugnoAxel==true) {
-			//System.out.println((Axel.getX()+500)+" - "+Dr.getX());
-
-			//System.out.println(staTirandoPugnoAxel);
 			if((Axel.getX())<=Dr.getX()) {
-				//System.out.println("1");
 				if(VersoAxel==true) {
-					//System.out.println("2");
 					if(b1.intersects(b2)) {
 						VitaDr-=0.25;
-						System.out.println("dr:"+VitaDr);
 						RVitaDr.setWidth(VitaDr*3);
 						RVitaDr.setX(610+300-VitaDr*3);
 						if(VitaDr<0) {
@@ -552,15 +495,14 @@ public class Main extends Application {
 					}
 				}
 			}
+			
 			if((Axel.getX()+200)>=Dr.getX()){
-				//System.out.println("fgds");
 				if(VersoAxel==false) {
-					//System.out.println("2");
 					if(b1.intersects(b2)) {
 						VitaDr-=0.25;
-						System.out.println("dr:"+VitaDr);
 						RVitaDr.setWidth(VitaDr*3);
 						RVitaDr.setX(610+300-VitaDr*3);
+						
 						if(VitaDr<0) {
 							vittoriaAxel=true;
 						}
@@ -847,7 +789,6 @@ public class Main extends Application {
 		if(vittoriaAxel==true) {
 			vittoriaAxel=false;
 			giocoIniziato=false; 
-            //Fight.setX(285);
             wasd.setX(20);
             frecce.setX(800);
             Start.setX(325);
@@ -858,8 +799,7 @@ public class Main extends Application {
             }else {
             	Dr.setX(800);
             }
-            
-            //Dr.setX(630);
+
             VersoAxel=true;
             VersoDr=false;
             VitaAxel=100;
